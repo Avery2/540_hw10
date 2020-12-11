@@ -27,6 +27,7 @@ def calculate_md5(fpath, chunk_size=1024*1024):
             md5.update(chunk)
     return md5.hexdigest()
 
+
 def gen_bar_updater():
     pbar = tqdm(total=None)
 
@@ -37,6 +38,7 @@ def gen_bar_updater():
         pbar.update(progress_bytes - pbar.n)
 
     return bar_update
+
 
 def download_url(url, folder):
     """Download a file from a url and place it in folder.
@@ -63,6 +65,7 @@ def download_url(url, folder):
         raise err
     return
 
+
 def extract_targz(src_file, dst_path):
     # create dst folder / extract all files
     print('Extracting ' + src_file + ' to' + dst_path)
@@ -70,10 +73,12 @@ def extract_targz(src_file, dst_path):
     with tarfile.open(src_file, 'r:gz') as tar:
         tar.extractall(path=dst_path)
 
+
 class MiniPlaces(data.Dataset):
     """
     A simple dataloader for mini places
     """
+
     def __init__(self,
                  root,
                  label_file=None,

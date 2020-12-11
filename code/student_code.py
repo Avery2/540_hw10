@@ -16,6 +16,7 @@ class SimpleFCNet(nn.Module):
     """
     A simple neural network with fully connected layers
     """
+
     def __init__(self, input_shape=(28, 28), num_classes=10):
         super(SimpleFCNet, self).__init__()
         # create the model by adding the layers
@@ -25,16 +26,22 @@ class SimpleFCNet(nn.Module):
         #     fill in the code here       #
         ###################################
         # Add a Flatten layer to convert the 2D pixel array to a 1D vector
+        layers.append(nn.Flatten())
 
         # Add a fully connected / linear layer with 128 nodes
+        layers.append(nn.Linear(128))
 
         # Add ReLU activation
+        layers.append(nn.ReLU())
 
         # Append a fully connected / linear layer with 64 nodes
+        layers.append(nn.Linear(64))
 
         # Add ReLU activation
+        layers.append(nn.ReLU())
 
         # Append a fully connected / linear layer with num_classes (10) nodes
+        layers.append(nn.Linear(10))
 
         self.layers = nn.Sequential(*layers)
 
@@ -64,6 +71,7 @@ class SimpleConvNet(nn.Module):
     """
     A simple convolutional neural network
     """
+
     def __init__(self, input_shape=(32, 32), num_classes=100):
         super(SimpleConvNet, self).__init__()
         ####################################################
@@ -106,9 +114,9 @@ class SimpleConvNet(nn.Module):
 
 def train_model(model, train_loader, optimizer, criterion, epoch):
     """
-    model (torch.nn.module): The model created to train
-    train_loader (pytorch data loader): Training data loader
-    optimizer (optimizer.*): A instance of some sort of optimizer, usually SGD
+    model (torch.nn.module): The model created to train | SimpleFCNet()
+    train_loader (pytorch data loader): Training data loader | torch.utils.data.DataLoader
+    optimizer (optimizer.*): A instance of some sort of optimizer, usually SGD (Stochastic gradient descent)
     criterion (nn.CrossEntropyLoss) : Loss function used to train the network
     epoch (int): Current epoch number
     """
@@ -121,14 +129,20 @@ def train_model(model, train_loader, optimizer, criterion, epoch):
         ######################################################
 
         # 1) zero the parameter gradients
+        model.zero_grad()
 
         # 2) forward + backward + optimize
 
+        out = model(input)
+        out.backward(optimizer)  # TODO this seems VERY wrong
+
+        loss = criterion(out, target)
 
         # Update the train_loss variable
         # .item() detaches the node from the computational graph
         # Uncomment the below line after you fill block 1 and 2
-        # train_loss += loss.item()
+        train_loss += loss.item()
+        pass
 
     train_loss /= len(train_loader)
     print('[Training set] Epoch: {:d}, Average loss: {:.4f}'.format(epoch+1, train_loss))
