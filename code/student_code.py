@@ -79,31 +79,56 @@ class SimpleConvNet(nn.Module):
         ####################################################
         # this is a simple implementation of LeNet-5
         layers = []
-        fc_dim = 16 * (input_shape[0] // 4 - 3) * (input_shape[1] // 4 - 3)
-        # 2 convs
-        layers.append(nn.Conv2d(3, 6, kernel_size=5, stride=1))
-        layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
+        # my test
 
-        layers.append(nn.Conv2d(6, 8, kernel_size=5, stride=1))
-        layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
+        # group 1
 
-        layers.append(nn.Conv2d(8, 10, kernel_size=5, stride=1))
+        layers.append(nn.Conv2d(3, 8, kernel_size=3, stride=1))
         layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
+        layers.append(nn.BatchNorm2d(8))
 
-        layers.append(nn.Conv2d(10, 16, kernel_size=5, stride=1))
+        layers.append(nn.Conv2d(8, 8, kernel_size=3, stride=1))
         layers.append(nn.ReLU(inplace=True))
+        layers.append(nn.BatchNorm2d(8))
+
+        layers.append(nn.Conv2d(8, 8, kernel_size=3, stride=1))
+        layers.append(nn.ReLU(inplace=True))
+        layers.append(nn.BatchNorm2d(8))
+
         layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
+        layers.append(nn.BatchNorm2d(8))
+
+        # group 2
+
+        layers.append(nn.Conv2d(8, 32, kernel_size=2, stride=1))
+        layers.append(nn.ReLU(inplace=True))
+        layers.append(nn.BatchNorm2d(32))
+
+        layers.append(nn.Conv2d(32, 32, kernel_size=2, stride=1))
+        layers.append(nn.ReLU(inplace=True))
+        layers.append(nn.BatchNorm2d(32))
+
+        layers.append(nn.Conv2d(32, 32, kernel_size=2, stride=1))
+        layers.append(nn.ReLU(inplace=True))
+        layers.append(nn.BatchNorm2d(32))
+
+        layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
+        layers.append(nn.BatchNorm2d(32))
+
+        # flatten
 
         layers.append(nn.Flatten())
 
         # 3 FCs
-        layers.append(nn.Linear(fc_dim, 256))
+        fc_dim = 800
+        layers.append(nn.Linear(fc_dim, 400))
+        layers.append(nn.BatchNorm1d(400))
         layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.Linear(256, 128))
+
+        layers.append(nn.Linear(400, 128))
+        layers.append(nn.BatchNorm1d(128))
         layers.append(nn.ReLU(inplace=True))
+
         layers.append(nn.Linear(128, num_classes))
 
         self.layers = nn.Sequential(*layers)
