@@ -29,19 +29,19 @@ class SimpleFCNet(nn.Module):
         layers.append(nn.Flatten())
 
         # Add a fully connected / linear layer with 128 nodes
-        layers.append(nn.Linear(128, 64))
+        layers.append(nn.Linear(784, 128))
 
         # Add ReLU activation
         layers.append(nn.ReLU())
 
         # Append a fully connected / linear layer with 64 nodes
-        layers.append(nn.Linear(64, 10))
+        layers.append(nn.Linear(128, 64))
 
         # Add ReLU activation
         layers.append(nn.ReLU())
 
         # Append a fully connected / linear layer with num_classes (10) nodes
-        layers.append(nn.Linear(10, 10))
+        layers.append(nn.Linear(64, 10))
 
         self.layers = nn.Sequential(*layers)
 
