@@ -129,7 +129,7 @@ def train_model(model, train_loader, optimizer, criterion, epoch):
         ######################################################
 
         # 1) zero the parameter gradients
-        model.zero_grad()
+        model.zero_grad()  # TODO this is not correct
 
         # 2) forward + backward + optimize
 
@@ -138,6 +138,8 @@ def train_model(model, train_loader, optimizer, criterion, epoch):
         loss = criterion(out, target)
 
         loss.backward()
+
+        optimizer.step()
 
         # Update the train_loss variable
         # .item() detaches the node from the computational graph
