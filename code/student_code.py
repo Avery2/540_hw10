@@ -84,10 +84,21 @@ class SimpleConvNet(nn.Module):
         layers.append(nn.Conv2d(3, 6, kernel_size=5, stride=1))
         layers.append(nn.ReLU(inplace=True))
         layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
-        layers.append(nn.Conv2d(6, 16, kernel_size=5, stride=1))
+
+        layers.append(nn.Conv2d(6, 8, kernel_size=5, stride=1))
         layers.append(nn.ReLU(inplace=True))
         layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
+
+        layers.append(nn.Conv2d(8, 10, kernel_size=5, stride=1))
+        layers.append(nn.ReLU(inplace=True))
+        layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
+
+        layers.append(nn.Conv2d(10, 16, kernel_size=5, stride=1))
+        layers.append(nn.ReLU(inplace=True))
+        layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
+
         layers.append(nn.Flatten())
+
         # 3 FCs
         layers.append(nn.Linear(fc_dim, 256))
         layers.append(nn.ReLU(inplace=True))
@@ -129,7 +140,7 @@ def train_model(model, train_loader, optimizer, criterion, epoch):
         ######################################################
 
         # 1) zero the parameter gradients
-        # model.zero_grad()  # TODO this is not correct?
+        # model.zero_grad()
         optimizer.zero_grad()
 
         # 2) forward + backward + optimize
