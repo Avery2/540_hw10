@@ -41,7 +41,7 @@ class SimpleFCNet(nn.Module):
         layers.append(nn.ReLU())
 
         # Append a fully connected / linear layer with num_classes (10) nodes
-        layers.append(nn.Linear(10))
+        layers.append(nn.Linear(10, 10))
 
         self.layers = nn.Sequential(*layers)
 
