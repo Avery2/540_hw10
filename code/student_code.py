@@ -129,7 +129,8 @@ def train_model(model, train_loader, optimizer, criterion, epoch):
         ######################################################
 
         # 1) zero the parameter gradients
-        model.zero_grad()  # TODO this is not correct
+        # model.zero_grad()  # TODO this is not correct?
+        optimizer.zero_grad()
 
         # 2) forward + backward + optimize
 
@@ -145,7 +146,6 @@ def train_model(model, train_loader, optimizer, criterion, epoch):
         # .item() detaches the node from the computational graph
         # Uncomment the below line after you fill block 1 and 2
         train_loss += loss.item()
-        pass
 
     train_loss /= len(train_loader)
     print('[Training set] Epoch: {:d}, Average loss: {:.4f}'.format(epoch+1, train_loss))
