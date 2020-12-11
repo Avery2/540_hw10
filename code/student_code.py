@@ -32,13 +32,13 @@ class SimpleFCNet(nn.Module):
         layers.append(nn.Linear(784, 128))
 
         # Add ReLU activation
-        layers.append(nn.ReLU())
+        layers.append(nn.ReLU(inplace=True))
 
         # Append a fully connected / linear layer with 64 nodes
         layers.append(nn.Linear(128, 64))
 
         # Add ReLU activation
-        layers.append(nn.ReLU())
+        layers.append(nn.ReLU(inplace=True))
 
         # Append a fully connected / linear layer with num_classes (10) nodes
         layers.append(nn.Linear(64, 10))
@@ -134,9 +134,10 @@ def train_model(model, train_loader, optimizer, criterion, epoch):
         # 2) forward + backward + optimize
 
         out = model(input)
-        out.backward(optimizer)  # TODO this seems VERY wrong
 
         loss = criterion(out, target)
+
+        loss.backward()
 
         # Update the train_loss variable
         # .item() detaches the node from the computational graph
