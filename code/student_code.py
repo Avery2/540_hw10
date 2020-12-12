@@ -81,55 +81,69 @@ class SimpleConvNet(nn.Module):
         layers = []
         # my test
 
+        n = [8, 32, 64]
+
+        # group 0
+
+        # n = 6
+
+        layers.append(nn.Conv2d(3, n[0], kernel_size=3, stride=1))
+        layers.append(nn.ReLU(inplace=True))
+        layers.append(nn.BatchNorm2d(n[0]))
+
+        layers.append(nn.Conv2d(n[0], n[0], kernel_size=3, stride=1))
+        layers.append(nn.ReLU(inplace=True))
+        layers.append(nn.BatchNorm2d(n[0]))
+
         # group 1
 
-        layers.append(nn.Conv2d(3, 8, kernel_size=3, stride=1))
-        layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.BatchNorm2d(8))
+        # n = 32
 
-        layers.append(nn.Conv2d(8, 8, kernel_size=3, stride=1))
+        layers.append(nn.Conv2d(n[0], n[1], kernel_size=3, stride=1))
         layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.BatchNorm2d(8))
+        layers.append(nn.BatchNorm2d(n[1]))
 
-        layers.append(nn.Conv2d(8, 8, kernel_size=3, stride=1))
+        layers.append(nn.Conv2d(n[1], n[1], kernel_size=2, stride=1))
         layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.BatchNorm2d(8))
+        layers.append(nn.BatchNorm2d(n[1]))
+
+        layers.append(nn.Conv2d(n[1], n[1], kernel_size=2, stride=1))
+        layers.append(nn.ReLU(inplace=True))
+        layers.append(nn.BatchNorm2d(n[1]))
 
         layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
-        layers.append(nn.BatchNorm2d(8))
+        layers.append(nn.BatchNorm2d(n[1]))
 
         # group 2
 
-        layers.append(nn.Conv2d(8, 32, kernel_size=2, stride=1))
-        layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.BatchNorm2d(32))
+        # n = 96
 
-        layers.append(nn.Conv2d(32, 32, kernel_size=2, stride=1))
+        layers.append(nn.Conv2d(n[1], n[2], kernel_size=2, stride=1))
         layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.BatchNorm2d(32))
+        layers.append(nn.BatchNorm2d(n[2]))
 
-        layers.append(nn.Conv2d(32, 32, kernel_size=2, stride=1))
+        layers.append(nn.Conv2d(n[2], n[2], kernel_size=2, stride=1))
         layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.BatchNorm2d(32))
+        layers.append(nn.BatchNorm2d(n[2]))
 
         layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
-        layers.append(nn.BatchNorm2d(32))
+        layers.append(nn.BatchNorm2d(n[2]))
 
         # flatten
 
         layers.append(nn.Flatten())
 
         # 3 FCs
-        fc_dim = 800
+        fc_dim = 1600
         layers.append(nn.Linear(fc_dim, 400))
         layers.append(nn.BatchNorm1d(400))
         layers.append(nn.ReLU(inplace=True))
 
-        layers.append(nn.Linear(400, 128))
-        layers.append(nn.BatchNorm1d(128))
+        layers.append(nn.Linear(400, 400))
+        layers.append(nn.BatchNorm1d(400))
         layers.append(nn.ReLU(inplace=True))
 
-        layers.append(nn.Linear(128, num_classes))
+        layers.append(nn.Linear(400, num_classes))
 
         self.layers = nn.Sequential(*layers)
 
