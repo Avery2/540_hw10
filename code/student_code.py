@@ -139,11 +139,11 @@ class SimpleConvNet(nn.Module):
         layers.append(nn.BatchNorm1d(400))
         layers.append(nn.ReLU(inplace=True))
 
-        layers.append(nn.Linear(400, 400))
-        layers.append(nn.BatchNorm1d(400))
+        layers.append(nn.Linear(400, 128))
+        layers.append(nn.BatchNorm1d(128))
         layers.append(nn.ReLU(inplace=True))
 
-        layers.append(nn.Linear(400, num_classes))
+        layers.append(nn.Linear(128, num_classes))
 
         self.layers = nn.Sequential(*layers)
 
